@@ -7,6 +7,9 @@ defmodule DuplicateCount do
         text
         |> String.codepoints()
         |> Enum.group_by(&String.downcase/1)
+        |> Map.values()
+        |> Enum.filter(fn(x) -> length(x) > 1 end)
+        |> Enum.count()
     end
 end
 

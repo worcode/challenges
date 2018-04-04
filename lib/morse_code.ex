@@ -1,19 +1,22 @@
 defmodule MorseCode do
-  @alphabet "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  @alphabet "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
   @morse_code [
     ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....",
     "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.",
     "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-",
-    "-.--", "--.."
+    "-.--", "--..", "S"
   ]
+
+  def replace_alphabet(code) do
+    String.at(@alphabet, Enum.find_index(@morse_code, &(&1 == code)))
+  end
 
   def decode(code) do
     code
-    |> String.split(~r(\ {3}))
-    |> Enum.map(&String.split/1)
-    |> List.flatten()
-    |> Enum.map(fn(x) -> Enum.find_index(@morse_code, &(&1 == x)) end)
-    |> Enum.map(fn(x) -> String.slice(@alphabet, x, 1) end)
+    |> String.replace(~r(\ {3}), " S ")
+    |> String.split()
+    |> Enum.map(&replace_alphabet/1)
+    |> Enum.join("")
   end
 
 end
